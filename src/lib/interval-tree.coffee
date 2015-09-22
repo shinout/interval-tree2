@@ -230,7 +230,7 @@ class IntervalTree
 
                 resultsById[point.id] = @intervalsById[point.id]
 
-            return (interval for id, interval of resultsById)
+        return (interval for id, interval of resultsById)
 
 
 
