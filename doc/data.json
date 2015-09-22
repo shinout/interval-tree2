@@ -1,0 +1,751 @@
+{
+    "project": {},
+    "files": {
+        "src/lib/interval-tree.coffee": {
+            "name": "src/lib/interval-tree.coffee",
+            "modules": {
+                "interval-tree2": 1
+            },
+            "classes": {
+                "IntervalTree": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/lib/interval.coffee": {
+            "name": "src/lib/interval.coffee",
+            "modules": {},
+            "classes": {
+                "Interval": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/lib/node.coffee": {
+            "name": "src/lib/node.coffee",
+            "modules": {},
+            "classes": {
+                "Node": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/lib/point.coffee": {
+            "name": "src/lib/point.coffee",
+            "modules": {},
+            "classes": {
+                "Point": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/lib/sorted-list.coffee": {
+            "name": "src/lib/sorted-list.coffee",
+            "modules": {},
+            "classes": {
+                "SortedList": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "interval-tree2": {
+            "name": "interval-tree2",
+            "submodules": {},
+            "classes": {
+                "IntervalTree": 1,
+                "Interval": 1,
+                "Node": 1,
+                "Point": 1,
+                "SortedList": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/lib/sorted-list.coffee",
+            "line": 2,
+            "description": "interval tree"
+        }
+    },
+    "classes": {
+        "IntervalTree": {
+            "name": "IntervalTree",
+            "shortname": "IntervalTree",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "interval-tree2",
+            "file": "src/lib/interval-tree.coffee",
+            "line": 9,
+            "description": "interval tree"
+        },
+        "Interval": {
+            "name": "Interval",
+            "shortname": "Interval",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "interval-tree2",
+            "namespace": "",
+            "file": "src/lib/interval.coffee",
+            "line": 2,
+            "description": "interval, containing start and and"
+        },
+        "Node": {
+            "name": "Node",
+            "shortname": "Node",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "interval-tree2",
+            "namespace": "",
+            "file": "src/lib/node.coffee",
+            "line": 4,
+            "description": "node of IntervalTree, containing intervalsj"
+        },
+        "Point": {
+            "name": "Point",
+            "shortname": "Point",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "interval-tree2",
+            "namespace": "",
+            "file": "src/lib/point.coffee",
+            "line": 3,
+            "description": "number with id"
+        },
+        "SortedList": {
+            "name": "SortedList",
+            "shortname": "SortedList",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "interval-tree2",
+            "namespace": "",
+            "file": "src/lib/sorted-list.coffee",
+            "line": 2,
+            "description": "extended array of objects, always sorted",
+            "extends": "Array"
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 18,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "center",
+                    "description": "center of the root node",
+                    "type": "Number"
+                }
+            ],
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 26,
+            "description": "center => node",
+            "itemtype": "property",
+            "name": "nodesByCenter",
+            "type": "Object(Node)",
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 34,
+            "description": "root node",
+            "itemtype": "property",
+            "name": "root",
+            "type": "Node",
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 42,
+            "description": "interval id => interval",
+            "itemtype": "property",
+            "name": "intervalsById",
+            "type": "Object(Interval)",
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 50,
+            "description": "interval id => node",
+            "itemtype": "property",
+            "name": "nodesById",
+            "type": "Object(Node)",
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 58,
+            "description": "sorted list of whole point",
+            "itemtype": "property",
+            "name": "pointTree",
+            "type": "SortedList(Point)",
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 66,
+            "description": "unique id candidate of interval without id to be added next time",
+            "itemtype": "property",
+            "name": "idCandidate",
+            "type": "Number",
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 75,
+            "description": "add one interval",
+            "itemtype": "method",
+            "name": "add",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "start",
+                    "description": "start of the interval to create",
+                    "type": "Number"
+                },
+                {
+                    "name": "end",
+                    "description": "end of the interval to create",
+                    "type": "Number"
+                },
+                {
+                    "name": "id",
+                    "description": "identifier to distinguish intervals. Automatically defiend when not set.",
+                    "type": "String|Number",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Interval"
+            },
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 113,
+            "description": "search intervals\nwhen only one argument is given, return intervals which contains the value\nwhen two arguments are given, ...",
+            "itemtype": "method",
+            "name": "search",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "val1",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "val2",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "intervals",
+                "type": "Array(Interval)"
+            },
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 140,
+            "description": "removes an interval of the given id",
+            "itemtype": "method",
+            "name": "remove",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "id of the interval to remove",
+                    "type": "Number|String"
+                }
+            ],
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 162,
+            "description": "search intervals at the given node",
+            "itemtype": "method",
+            "name": "pointSearch",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "node",
+                    "description": "current node to search. default is this.root",
+                    "type": "Node",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array(Interval)"
+            },
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 211,
+            "description": "returns intervals which covers the given start-end interval",
+            "itemtype": "method",
+            "name": "rangeSearch",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "start",
+                    "description": "start of the interval",
+                    "type": "Number"
+                },
+                {
+                    "name": "end",
+                    "description": "end of the interval",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array(Interval)"
+            },
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 249,
+            "description": "insert interval to the given node",
+            "itemtype": "method",
+            "name": "insert",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "interval",
+                    "description": "",
+                    "type": "Interval"
+                },
+                {
+                    "name": "node",
+                    "description": "node to insert the interval",
+                    "type": "Node"
+                }
+            ],
+            "return": {
+                "description": "inserted interval",
+                "type": "Interval"
+            },
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval-tree.coffee",
+            "line": 280,
+            "description": "create node by center",
+            "itemtype": "method",
+            "name": "createNode",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "center",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "node",
+                "type": "Node"
+            },
+            "class": "IntervalTree",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval.coffee",
+            "line": 11,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "start",
+                    "description": "start of the interval",
+                    "type": "Number"
+                },
+                {
+                    "name": "end",
+                    "description": "end of the interval",
+                    "type": "Number"
+                },
+                {
+                    "name": "id",
+                    "description": "id of the interval",
+                    "type": "Number|String"
+                }
+            ],
+            "class": "Interval",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 13,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "center",
+                    "description": "center of the node",
+                    "type": "Number"
+                }
+            ],
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 19,
+            "description": "another node whose center is less than this.center",
+            "itemtype": "property",
+            "name": "left",
+            "type": "Node",
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 27,
+            "description": "another node whose center is greater than this.center",
+            "itemtype": "property",
+            "name": "right",
+            "type": "Node",
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 35,
+            "description": "sorted list of Intervals, sorting them by their start property",
+            "itemtype": "property",
+            "name": "starts",
+            "type": "SortedList(Interval)",
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 43,
+            "description": "sorted list of Intervals, sorting them by their end property",
+            "itemtype": "property",
+            "name": "ends",
+            "type": "SortedList(Interval)",
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 51,
+            "description": "the number of intervals",
+            "itemtype": "method",
+            "name": "count",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 60,
+            "description": "insert an interval",
+            "itemtype": "method",
+            "name": "insert",
+            "params": [
+                {
+                    "name": "interval",
+                    "description": "",
+                    "type": "Interval"
+                }
+            ],
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 72,
+            "description": "remove the given interval",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "interval",
+                    "description": "",
+                    "type": "Interval"
+                },
+                {
+                    "name": "list",
+                    "description": "",
+                    "type": "SortedList"
+                }
+            ],
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 85,
+            "description": "remove the given interval from the given list",
+            "itemtype": "method",
+            "name": "removeFromList",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "interval",
+                    "description": "",
+                    "type": "Interval"
+                },
+                {
+                    "name": "list",
+                    "description": "",
+                    "type": "SortedList"
+                }
+            ],
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/point.coffee",
+            "line": 12,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "val",
+                    "description": "number",
+                    "type": "Number"
+                },
+                {
+                    "name": "id",
+                    "description": "id",
+                    "type": "Number|String"
+                }
+            ],
+            "class": "Point",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 12,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "compareKey",
+                    "description": "key name to compare objects. The value of the key must be a number.",
+                    "type": "String"
+                }
+            ],
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 17,
+            "description": "key name to compare objects. The value of the key must be a number.",
+            "itemtype": "property",
+            "name": "compareKey",
+            "type": "String",
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 25,
+            "description": "insert a value",
+            "itemtype": "method",
+            "name": "insert",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "inserted position",
+                "type": "Number"
+            },
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 41,
+            "description": "remove the value in the given position",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "pos",
+                    "description": "position",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "self",
+                "type": "SortedList"
+            },
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 54,
+            "description": "binary search",
+            "itemtype": "method",
+            "name": "bsearch",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "position of the value",
+                "type": "Number"
+            },
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 85,
+            "description": "leftmost position of the given val",
+            "itemtype": "method",
+            "name": "firstPositionOf",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "leftmost position of the value",
+                "type": "Number"
+            },
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 107,
+            "description": "rightmost position of the given val",
+            "itemtype": "method",
+            "name": "lastPositionOf",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "return": {
+                "description": "rightmost position of the value",
+                "type": "Number"
+            },
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 129,
+            "description": "sorted.toArray()\nget raw array",
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 137,
+            "description": "comparison function. Compares two objects by this.compareKey",
+            "itemtype": "method",
+            "name": "compare",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Any"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Any"
+                }
+            ],
+            "class": "SortedList",
+            "module": "interval-tree2"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " src/lib/interval-tree.coffee:18"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/lib/interval.coffee:11"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/lib/node.coffee:13"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/lib/point.coffee:12"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/lib/sorted-list.coffee:12"
+        },
+        {
+            "message": "Missing item type\nsorted.toArray()\nget raw array",
+            "line": " src/lib/sorted-list.coffee:129"
+        }
+    ]
+}
