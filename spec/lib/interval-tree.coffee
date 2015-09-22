@@ -1,20 +1,7 @@
 
 IntervalTree = require '../../src/lib/interval-tree'
 Interval     = require '../../src/lib/interval'
-
-createRandomInterval = (unit, id) ->
-
-    p1 = Math.floor(Math.random() * unit)
-    p2 = Math.floor(Math.random() * unit)
-
-    if p1 is p2
-        if p1 > 0
-            p1--
-        else
-            p2++
-
-    return new Interval(Math.min(p1, p2), Math.max(p1, p2), id)
-
+Node         = require '../../src/lib/node'
 
 
 describe 'IntervalTree', ->
@@ -23,51 +10,131 @@ describe 'IntervalTree', ->
 
         @iTree = new IntervalTree(500)
 
-        @intervals = (createRandomInterval(1000, i) for i in [0...100])
 
-        for interval in @intervals
+    it 'throws an error when null is passed to constructor', ->
 
-            @iTree.add interval.start, interval.end, interval.id
+        expect(-> new IntervalTree(null)).to.throw 'IntervalTree: center is required.'
+
+
+
+    describe 'add', ->
+
+        it 'throws an error when non-number value is given to "start"', ->
+            expect(-> @iTree.add('123', 39)).to.throw Error
+
+
+        it 'throws an error when non-number value is given to "end"', ->
+            expect(-> @iTree.add(123, '39')).to.throw Error
+
+
+        it 'throws an error when duplicated id is given', ->
+            @iTree.add(123, 345, 'foo')
+            expect(-> @iTree.add(1234, 3457, 'foo')).to.throw Error
+
+
+        it 'adds data with automatically-inserted id', ->
+
+            interval = @iTree.add(12, 39)
+
+            expect(interval).to.be.instanceof Interval
+            expect(interval).to.have.property('id')
+
+            id = interval.id
+
+            expect(@iTree.intervalsById[id]).to.equal interval
+            expect(@iTree.nodesById[id]).to.be.instanceof Node
+
+
+        it 'adds data with custom id', ->
+
+            interval = @iTree.add(-100, 10000, 'foo')
+
+            expect(interval).to.be.instanceof Interval
+            expect(interval).to.have.property('id', 'foo')
+
+            expect(@iTree.intervalsById.foo).to.equal interval
+            expect(@iTree.nodesById.foo).to.be.instanceof Node
+
 
 
     describe 'search', ->
 
-        it 'runs point search when one argument is given', ->
+        it 'throws an error when 1st argument is not a number', ->
+
+            expect(-> @iTree.search('123')).to.throw Error
+
+
+        it 'runs point search when one argument is given', (done) ->
+
+            @iTree.pointSearch = (val) ->
+                expect(val).to.equal 100
+                done()
+
+            @iTree.search(100)
+
+        it 'throws an error when 2nd argument is given and not a number', ->
+
+            expect(-> @iTree.search(70, '123')).to.throw Error
+
+
+        it 'runs range search when two arguments are given', (done) ->
+
+            @iTree.rangeSearch = (val1, val2) ->
+                expect(val1).to.equal 100
+                expect(val2).to.equal 200
+                done()
+
+            @iTree.search(100, 200)
+
 
 
     describe 'pointSearch', ->
 
-        it 'searches intervals by point', ->
+        it 'returns overlapping intervals ', ->
 
-            results = @iTree.search(500)
+            @iTree.add 499, 500, '499-500'
+            @iTree.add 499, 501, '499-501'
+            @iTree.add 500, 501, '500-501'
+            @iTree.add 501, 502, '501-502'
+            @iTree.add -31, 502, '-31-502'
 
-            resultIds = (result.id for result in results)
+            results = @iTree.pointSearch(500)
 
-            for interval in @intervals
+            expect(results).to.be.instanceof Array
+            expect(results[0]).to.be.instanceof Interval
+            expect(results).to.have.length 4
 
-                { start, end, id } = interval
+            for interval in results
+                expect(interval.start).to.be.below 501
+                expect(interval.end).to.be.above 499
 
-                if id in resultIds
-
-                    expect(start).to.be.below 501
-                    expect(end).to.be.above 499
-
-                else if start < 500
-                    expect(end).to.be.below 500
-
-                else
-                    expect(start).to.be.above 500
 
 
     describe 'rangeSearch', ->
 
         it 'searches intervals by range', ->
 
-            results = @iTree.search(500, 700)
+            @iTree.add 498, 499, '498-499' # x
+            @iTree.add 499, 500, '499-500' # o
+            @iTree.add 499, 501, '499-501' # o
+            @iTree.add 500, 501, '500-501' # o
+            @iTree.add 501, 502, '500-502' # o
+            @iTree.add 509, 510, '509-510' # o
+            @iTree.add 509, 511, '509-511' # o
+            @iTree.add 510, 511, '510-511' # o
+            @iTree.add 511, 512, '511-512' # x
+            @iTree.add -31, 999, '-31-999' # o
+
+            results = @iTree.rangeSearch(500, 510)
 
             resultIds = (result.id for result in results)
 
-            for interval in @intervals
+            expect(results).to.be.instanceof Array
+            expect(results[0]).to.be.instanceof Interval
+            expect(results).to.have.length 8
+
+
+            for id, interval of @iTree.intervalsById
 
                 { start, end, id } = interval
 
@@ -76,16 +143,15 @@ describe 'IntervalTree', ->
                     if start < 500
                         expect(end).to.be.above 499
 
-                    else if end > 700
-                        expect(start).to.be.below 701
+                    else if end > 510
+                        expect(start).to.be.below 511
 
                     else
-                        expect(start).within 500, 700
-                        expect(end).within 500, 700
-
+                        expect(start).within 500, 510
+                        expect(end).within 500, 510
 
                 else
-                    expect(start > 700 or end < 500).to.be.true
+                    expect(start > 510 or end < 500).to.be.true
 
 
 
@@ -93,14 +159,16 @@ describe 'IntervalTree', ->
 
         it 'removes an interval by id', ->
 
-            id = 59
+            @iTree.add 498, 499, 'foo'
+            @iTree.add 498, 499, 'bar'
+
+            id = 'foo'
+
             interval = @iTree.intervalsById[id]
             node = @iTree.nodesById[id]
             count = node.count()
 
-
             @iTree.remove id
-
 
             expect(@iTree.intervalsById[id]).to.not.exist
             expect(@iTree.nodesById[id]).to.not.exist
