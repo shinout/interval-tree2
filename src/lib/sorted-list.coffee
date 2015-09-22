@@ -83,6 +83,50 @@ class SortedList extends Array
 
 
     ###*
+    leftmost position of the given val
+
+    @method firstPositionOf
+    @param {any} val
+    @return {Number} leftmost position of the value
+    ###
+    firstPositionOf: (val) ->
+
+        index = @bsearch val
+
+        return -1 if index is -1
+
+        num = val[@compareKey]
+
+        while index >= 0 and num is @[index][@compareKey]
+            index--
+
+        return index
+
+
+
+    ###*
+    rightmost position of the given val
+
+    @method lastPositionOf
+    @param {any} val
+    @return {Number} rightmost position of the value
+    ###
+    lastPositionOf: (val) ->
+
+        index = @bsearch val
+
+        return -1 if index is -1
+
+        num = val[@compareKey]
+
+        while index < @length and @[index][@compareKey] is num
+            index++
+
+        return index
+
+
+
+    ###*
     # sorted.toArray()
     # get raw array
     #

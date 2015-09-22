@@ -104,11 +104,10 @@ class IntervalTree
 
             Util.assertNumber val2, '2nd argument at IntervalTree#search()'
 
-            ret = []
+            if val2 - val1 <= 0
+                throw new Error('end must be greater than start. start: ' + val1 + ', end: ' + val2)
 
-            @rangeSearch val1, val2, ret
-
-            return ret
+            return @rangeSearch val1, val2
 
 
 
@@ -185,37 +184,36 @@ class IntervalTree
 
 
 
-    rangeSearch: (start, end, arr) ->
-        if end - start <= 0
-            throw new Error('end must be greater than start. start: ' + start + ', end: ' + end)
+    ###*
+    returns intervals which covers the given start-end interval
 
-        resultHash = {}
-        wholeWraps = @pointSearch(start + end >> 1, @root)
+    @method rangeSearch
+    @param {Number} start start of the interval
+    @param {Number} end end of the interval
+    @return {Array(Interval)}
+    ###
+    rangeSearch: (start, end) ->
 
-        for result in wholeWraps
-            resultHash[result.id] = true
+        resultsById = {}
 
-        idx1 = @pointTree.bsearch new Point(start, null)
+        for interval in @pointSearch(start, @root)
+            resultsById[interval.id] = interval
 
-        while idx1 >= 0 and @pointTree[idx1].val is start
-            idx1--
+        for interval in @pointSearch(end, @root)
+            resultsById[interval.id] = interval
 
-        idx2 = @pointTree.bsearch new Point(end, null)
+        # add intervals whose point is included in the given range
+        firstPos = @pointTree.firstPositionOf new Point(start)
 
-        if idx2 >= 0
-            len = @pointTree.length - 1
+        lastPos = @pointTree.lastPositionOf new Point(end)
 
-            while idx2 <= len and @pointTree[idx2].val <= end
-                idx2++
+        if lastPos >= 0
 
-            @pointTree.slice(idx1 + 1, idx2).forEach (point) ->
-                resultHash[point.id] = true
-                return
+            for point in @pointTree.slice(firstPos + 1, lastPos)
 
-            Object.keys(resultHash).forEach (id) =>
-                interval = @intervalsById[id]
-                arr.push interval.result(start, end)
-                return
+                resultsById[point.id] = @intervalsById[point.id]
+
+            return (interval for id, interval of resultsById)
 
 
     remove: (id) ->

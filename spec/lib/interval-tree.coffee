@@ -43,11 +43,11 @@ describe 'IntervalTree', ->
 
             resultIds = (Number(result.id) for result in results)
 
-            for interval, i in @intervals
+            for interval in @intervals
 
-                { start, end } = interval
+                { start, end, id } = interval
 
-                if i in resultIds
+                if id in resultIds
 
                     expect(start).to.be.below 501
                     expect(end).to.be.above 499
@@ -63,10 +63,26 @@ describe 'IntervalTree', ->
 
         it 'searchs intervals by range', ->
 
-            results = @iTree.search(500, 700)
+            intervals = @iTree.search(500, 700)
 
-            for result in results
+            resultIds = (Number(result.id) for result in intervals)
 
-                expect(result.rate1).to.be.above 0
-                expect(result.rate2).to.be.above 0
+            for interval in @intervals
 
+                { start, end, id } = interval
+
+                if id in resultIds
+
+                    if start < 500
+                        expect(end).to.be.above 499
+
+                    else if end > 700
+                        expect(start).to.be.below 701
+
+                    else
+                        expect(start).within 500, 700
+                        expect(end).within 500, 700
+
+
+                else
+                    expect(start > 700 or end < 500).to.be.true
