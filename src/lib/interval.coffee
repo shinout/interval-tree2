@@ -15,9 +15,7 @@ class Interval
 
     result: (start, end) ->
 
-        ret = 
-            id   : @id
-            data : @data
+        ret = id: @id
 
         if typeof start is 'number' and typeof end is 'number'
 

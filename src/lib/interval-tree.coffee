@@ -50,38 +50,44 @@ class IntervalTree
         return
 
 
-    pointSearch: (node, idx, arr) ->
+    ###*
+    search intervals
 
-        return if not node?
+    @method pointSearch
+    @private
+    @param val {Number}
+    @param node {Node} current node to search
+    @return {Array(Interval)}
+    ###
+    pointSearch: (val, node) ->
 
-        if idx < node.center
+        results = []
 
-            node.starts.every (itvl) ->
+        return results if not node?
 
-                bool = itvl.start <= idx
+        if val < node.center
 
-                if bool
-                    arr.push itvl.result()
+            for interval in node.starts
 
-                return bool
+                break if interval.start > val
 
-            return @pointSearch(node.left, idx, arr)
+                results.push interval
+
+            return results.concat @pointSearch(val, node.left)
 
 
-        else if idx > node.center
+        if val > node.center
 
-            node.ends.every (itvl) ->
-                bool = itvl.end >= idx
-                if bool
-                  arr.push itvl.result()
-                return bool
+            for interval in node.ends
 
-            return @pointSearch(node.right, idx, arr)
+                break if interval.end < val
 
-        else
-            for itvl in node.starts
-                arr.push itvl.result()
+                results.push interval
 
+            return results.concat @pointSearch(val, node.right)
+
+        # if val is node.center
+        return results.concat node.starts.toArray()
 
 
     rangeSearch: (start, end, arr) ->
@@ -89,9 +95,7 @@ class IntervalTree
             throw new Error('end must be greater than start. start: ' + start + ', end: ' + end)
 
         resultHash = {}
-        wholeWraps = []
-
-        @pointSearch @root, start + end >> 1, wholeWraps, true
+        wholeWraps = @pointSearch(start + end >> 1, @root)
 
         for result in wholeWraps
             resultHash[result.id] = true
@@ -151,7 +155,7 @@ class IntervalTree
 
         if not val2?
 
-            @pointSearch @root, val1, ret
+            return @pointSearch val1, @root
 
         else
 
@@ -159,7 +163,7 @@ class IntervalTree
 
             @rangeSearch val1, val2, ret
 
-        return ret
+            return ret
 
 
     remove: (id) ->
