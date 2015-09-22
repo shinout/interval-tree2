@@ -100,7 +100,7 @@ class SortedList extends Array
         while index >= 0 and num is @[index][@compareKey]
             index--
 
-        return index
+        return index + 1
 
 
 
@@ -119,7 +119,7 @@ class SortedList extends Array
 
         num = val[@compareKey]
 
-        while index < @length and @[index][@compareKey] is num
+        while index < @length and @[index][@compareKey] <= num
             index++
 
         return index

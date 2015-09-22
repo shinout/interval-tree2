@@ -261,7 +261,7 @@ class IntervalTree
 
         if lastPos >= 0
 
-            for point in @pointTree.slice(firstPos + 1, lastPos)
+            for point in @pointTree.slice(firstPos, lastPos)
 
                 resultsById[point.id] = @intervalsById[point.id]
 
