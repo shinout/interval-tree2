@@ -1,24 +1,24 @@
 
 SortedList = require './sorted-list'
 Node       = require './node'
+Point      = require './point'
 Interval   = require './interval'
 Util       = require './util'
 
 
 class IntervalTree
 
+
     constructor: (center) ->
 
         @intervalsById = {}
 
-        @pointTree = new SortedList compare: (a, b) ->
+        ###*
+        sorted list of whole point
 
-            return -1 if not a?
-            return 1  if not b?
-
-            c = a[0] - b[0]
-
-            if c > 0 then 1 else if c is 0 then 0 else -1
+        @property {SortedList(Point)} pointTree
+        ###
+        @pointTree = new SortedList('val')
 
         @_autoIncrement = 0
 
@@ -100,24 +100,21 @@ class IntervalTree
         for result in wholeWraps
             resultHash[result.id] = true
 
-        idx1 = @pointTree.bsearch([start, null ])
+        idx1 = @pointTree.bsearch new Point(start, null)
 
-        pointTreeArray = @pointTree
-
-        while idx1 >= 0 and pointTreeArray[idx1][0] is start
+        while idx1 >= 0 and @pointTree[idx1].val is start
             idx1--
 
-        idx2 = @pointTree.bsearch([end, null])
+        idx2 = @pointTree.bsearch new Point(end, null)
 
         if idx2 >= 0
-            len = pointTreeArray.length - 1
+            len = @pointTree.length - 1
 
-            while idx2 <= len and pointTreeArray[idx2][0] <= end
+            while idx2 <= len and @pointTree[idx2].val <= end
                 idx2++
 
-            pointTreeArray.slice(idx1 + 1, idx2).forEach (point) ->
-                id = point[1]
-                resultHash[id] = true
+            @pointTree.slice(idx1 + 1, idx2).forEach (point) ->
+                resultHash[point.id] = true
                 return
 
             Object.keys(resultHash).forEach (id) =>
@@ -138,8 +135,8 @@ class IntervalTree
 
         itvl = new Interval(start, end, id)
 
-        @pointTree.insert [ itvl.start, id ]
-        @pointTree.insert [ itvl.end,   id ]
+        @pointTree.insert new Point(itvl.start, id)
+        @pointTree.insert new Point(itvl.end,   id)
 
         @intervalsById[id] = itvl
 

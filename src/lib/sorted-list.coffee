@@ -2,55 +2,14 @@
 
 class SortedList extends Array
 
-    ###*
-    # comparison functions 
-    #
-    ###
-    @compares =
 
-        'number': (a, b) ->
-            c = a - b
-            if c > 0 then 1 else if c == 0 then 0 else -1
+    constructor: (@compareKey) ->
 
 
-        'string': (a, b) ->
-            if a > b then 1 else if a == b then 0 else -1
+    @create: (compareKey) ->
 
+        new SortedList(compareKey)
 
-
-    constructor: (args...) ->
-        arr = null
-        options = {}
-        [
-            '0'
-            '1'
-        ].forEach (n) ->
-            val = args[n]
-            if Array.isArray(val)
-                arr = val
-            else if val and typeof val == 'object'
-                options = val
-            return
-        if typeof options.filter == 'function'
-            @_filter = options.filter
-        if typeof options.compare == 'function'
-            @_compare = options.compare
-        else if typeof options.compare == 'string' and SortedList.compares[options.compare]
-            @_compare = SortedList.compares[options.compare]
-        @_unique = ! !options.unique
-        if options.resume and arr
-            arr.forEach ((v, i) ->
-                @push v
-                return
-            ), this
-        else if arr
-            @insert.apply this, arr
-        return
-
-
-    @create: (val1, val2) ->
-
-        new SortedList(val1, val2)
 
 
     ###*
@@ -115,7 +74,7 @@ class SortedList extends Array
         while epos - spos > 1
             mpos = Math.floor((spos + epos) / 2)
             mval = @[mpos]
-            comp = @_compare(val, mval)
+            comp = @compare(val, mval)
             if comp is 0
                 return mpos
             if comp > 0
@@ -123,7 +82,7 @@ class SortedList extends Array
             else
                 epos = mpos
 
-        if spos is 0 and @_compare(@[0], val) > 0 then -1 else spos
+        if spos is 0 and @compare(@[0], val) > 0 then -1 else spos
 
 
     ###*
@@ -136,10 +95,10 @@ class SortedList extends Array
 
         pos = bsResult
 
-        if pos == -1 or @_compare(@[pos], val) < 0
-            return if pos + 1 < @length and @_compare(@[pos + 1], val) == 0 then pos + 1 else null
+        if pos == -1 or @compare(@[pos], val) < 0
+            return if pos + 1 < @length and @compare(@[pos + 1], val) == 0 then pos + 1 else null
 
-        while pos >= 1 and @_compare(@[pos - 1], val) == 0
+        while pos >= 1 and @compare(@[pos - 1], val) == 0
             pos--
 
         return pos
@@ -155,14 +114,14 @@ class SortedList extends Array
 
         pos = bsResult
 
-        while pos >= 0 and @_compare(@[pos], val) == 0
+        while pos >= 0 and @compare(@[pos], val) == 0
             ret.push pos
             pos--
 
         len = @length
         pos = bsResult + 1
 
-        while pos < len and @_compare(@[pos], val) == 0
+        while pos < len and @compare(@[pos], val) == 0
             ret.push pos
             pos++
 
@@ -179,12 +138,12 @@ class SortedList extends Array
 
         if createNew
             return @filter (v, k) =>
-                k is 0 or @_compare(@[k - 1], v) isnt 0
+                k is 0 or @compare(@[k - 1], v) isnt 0
 
         total = 0
 
         @map(((v, k) ->
-            if k == 0 or @_compare(@[k - 1], v) != 0
+            if k == 0 or @compare(@[k - 1], v) != 0
                 return null
             k - total++
         ), this).forEach ((k) ->
@@ -211,11 +170,16 @@ class SortedList extends Array
 
 
     ###*
-    # sorted.compare(a, b)
-    # default comparison function
-    #
     ###
-    _compare: @compares['string']
+    compare: (a, b) ->
+
+        return -1 if not a?
+        return 1  if not b?
+
+        c = a[@compareKey] - b[@compareKey]
+
+        if c > 0 then 1 else if c is 0 then 0 else -1
+
 
 
 module.exports = SortedList
