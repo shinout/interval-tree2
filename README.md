@@ -24,7 +24,7 @@ $ npm install interval-tree2
 
 ## usage
 
-require and create
+### require and create
 
 ```js
 
@@ -33,7 +33,7 @@ var IntervalTree = require('interval-tree2');
 var itree = new IntervalTree(300); // 300 : the center of the tree
 ```
 
-add interval data
+### add interval data
 
 ```js
 itree.add(22, 56,  'foo'); // 'foo' is the id of the interval data
@@ -42,7 +42,7 @@ itree.add(1, 38); // id is automatically set when not given
 ```
 
 
-search by point: get overlapped intervals from one point
+### search by point: get overlapped intervals from one point
 
 ```js
 var intervals = itree.search(103);
@@ -63,7 +63,7 @@ intervals.forEach(function(interval) {
 ```
 
 
-search by range: get overlapped intervals from a range
+### search by range: get overlapped intervals from a range
 
 ```js
 var intervals2 = itree.search(103, 400);
@@ -85,7 +85,7 @@ intervals2.forEach(function(interval) {
 
 ```
 
-remove an interval by id
+### remove an interval by id
 
 ```js
 itree.remove('foo');
