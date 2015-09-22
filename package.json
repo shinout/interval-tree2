@@ -17,9 +17,7 @@
   "keywords": ["tree", "interval", "range", "algorithm"],
   "author": "SHIN Suzuki <shinout310@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "sortedlist" : "^0.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-coffee": "^0.13.0",
