@@ -1,5 +1,6 @@
-IntervalTree = require '../../src/lib/interval-tree'
 
+IntervalTree = require '../../src/lib/interval-tree'
+Interval     = require '../../src/lib/interval'
 
 createRandomInterval = (unit, id) ->
 
@@ -12,7 +13,8 @@ createRandomInterval = (unit, id) ->
         else
             p2++
 
-    return [ Math.min(p1, p2), Math.max(p1, p2), id ]
+    return new Interval(Math.min(p1, p2), Math.max(p1, p2), id)
+
 
 
 describe 'IntervalTree', ->
@@ -25,7 +27,7 @@ describe 'IntervalTree', ->
 
         for interval in @intervals
 
-            @iTree.add interval, interval[2]
+            @iTree.add interval.start, interval.end, interval.id
 
 
     describe 'search', ->
@@ -43,18 +45,18 @@ describe 'IntervalTree', ->
 
             for interval, i in @intervals
 
-                [ left, right ] = interval
+                { start, end } = interval
 
                 if i in resultIds
 
-                    expect(left).to.be.below 501
-                    expect(right).to.be.above 499
+                    expect(start).to.be.below 501
+                    expect(end).to.be.above 499
 
-                else if left < 500
-                    expect(right).to.be.below 500
+                else if start < 500
+                    expect(end).to.be.below 500
 
                 else
-                    expect(left).to.be.above 500
+                    expect(start).to.be.above 500
 
 
 

@@ -4,10 +4,7 @@ Util = require './util'
 class Interval
 
 
-    constructor: (@data, @id, startKey, endKey) ->
-
-        @start = @data[startKey]
-        @end   = @data[endKey]
+    constructor: (@start, @end, @id) ->
 
         Util.assertNumber(@start, 'Interval#start')
         Util.assertNumber(@end, 'Interval#end')

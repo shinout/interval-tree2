@@ -7,12 +7,7 @@ Util       = require './util'
 
 class IntervalTree
 
-    constructor: (center, options = {}) ->
-
-        { @startKey, @endKey } = options
-
-        @startKey ?= 0
-        @endKey   ?= 1
+    constructor: (center) ->
 
         @intervalHash = {}
 
@@ -127,7 +122,7 @@ class IntervalTree
                 return
 
 
-    add: (data, id) ->
+    add: (start, end, id) ->
 
         if @intervalHash[id]?
             throw new Error('id ' + id + ' is already registered.')
@@ -137,7 +132,7 @@ class IntervalTree
                 @_autoIncrement++
             id = @_autoIncrement
 
-        itvl = new Interval(data, id, @startKey, @endKey)
+        itvl = new Interval(start, end, id)
 
         @pointTree.insert [ itvl.start, id ]
         @pointTree.insert [ itvl.end,   id ]
