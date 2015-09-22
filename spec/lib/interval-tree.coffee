@@ -59,7 +59,6 @@ describe 'IntervalTree', ->
                     expect(start).to.be.above 500
 
 
-
     describe 'rangeSearch', ->
 
         it 'searchs intervals by range', ->

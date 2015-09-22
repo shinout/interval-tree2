@@ -9,7 +9,7 @@ class IntervalTree
 
     constructor: (center) ->
 
-        @intervalHash = {}
+        @intervalsById = {}
 
         @pointTree = new SortedList compare: (a, b) ->
 
@@ -117,18 +117,18 @@ class IntervalTree
                 return
 
             Object.keys(resultHash).forEach (id) =>
-                itvl = @intervalHash[id]
+                itvl = @intervalsById[id]
                 arr.push itvl.result(start, end)
                 return
 
 
     add: (start, end, id) ->
 
-        if @intervalHash[id]?
+        if @intervalsById[id]?
             throw new Error('id ' + id + ' is already registered.')
 
         if not id?
-            while @intervalHash[@_autoIncrement]?
+            while @intervalsById[@_autoIncrement]?
                 @_autoIncrement++
             id = @_autoIncrement
 
@@ -137,7 +137,7 @@ class IntervalTree
         @pointTree.insert [ itvl.start, id ]
         @pointTree.insert [ itvl.end,   id ]
 
-        @intervalHash[id] = itvl
+        @intervalsById[id] = itvl
 
         @insert @root, itvl
 
