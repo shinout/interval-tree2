@@ -27,31 +27,31 @@ class IntervalTree
         @root = new Node(center)
 
 
-    insert: (node, itvl) ->
+    insert: (node, interval) ->
 
-        if itvl.end < node.center
+        if interval.end < node.center
 
-            newCenter = itvl.end
+            newCenter = interval.end
 
             node.left ?= new Node(newCenter)
 
-            return @insert(node.left, itvl)
+            return @insert(node.left, interval)
 
-        if node.center < itvl.start
+        if node.center < interval.start
 
-            middle = (itvl.start + itvl.end) / 2
+            middle = (interval.start + interval.end) / 2
 
             node.right ?= new Node(middle)
 
-            return @insert(node.right, itvl)
+            return @insert(node.right, interval)
 
-        node.insert itvl
+        node.insert interval
 
         return
 
 
     ###*
-    search intervals
+    search intervals at the given node
 
     @method pointSearch
     @private
@@ -118,8 +118,8 @@ class IntervalTree
                 return
 
             Object.keys(resultHash).forEach (id) =>
-                itvl = @intervalsById[id]
-                arr.push itvl.result(start, end)
+                interval = @intervalsById[id]
+                arr.push interval.result(start, end)
                 return
 
 
@@ -133,15 +133,14 @@ class IntervalTree
                 @_autoIncrement++
             id = @_autoIncrement
 
-        itvl = new Interval(start, end, id)
+        interval = new Interval(start, end, id)
 
-        @pointTree.insert new Point(itvl.start, id)
-        @pointTree.insert new Point(itvl.end,   id)
+        @pointTree.insert new Point(interval.start, id)
+        @pointTree.insert new Point(interval.end,   id)
 
-        @intervalsById[id] = itvl
+        @intervalsById[id] = interval
 
-        @insert @root, itvl
-
+        @insert @root, interval
 
 
     search: (val1, val2) ->
