@@ -74,6 +74,9 @@ class IntervalTree
 
     ###*
     add one interval
+
+    @method add
+    @public
     @param {Number} start start of the interval to create
     @param {Number} end   end of the interval to create
     @param {String|Number} [id] identifier to distinguish intervals. Automatically defiend when not set.
@@ -104,6 +107,8 @@ class IntervalTree
     when only one argument is given, return intervals which contains the value
     when two arguments are given, ...
 
+    @method search
+    @public
     @param {Number} val1
     @param {Number} val2
     @return {Array(Interval)} intervals
@@ -114,7 +119,7 @@ class IntervalTree
 
         if not val2?
 
-            return @pointSearch val1, @root
+            return @pointSearch val1
 
         else
 
@@ -130,6 +135,7 @@ class IntervalTree
     removes an interval of the given id
 
     @method remove
+    @public
     @param {Number|String} id id of the interval to remove
     ###
     remove: (id) ->
@@ -144,6 +150,88 @@ class IntervalTree
 
         delete @nodesById[id]
         delete @intervalsById[id]
+
+
+
+    ###*
+    search intervals at the given node
+
+    @method pointSearch
+    @public
+    @param {Number} val
+    @param {Node} [node] current node to search. default is this.root
+    @return {Array(Interval)}
+    ###
+    pointSearch: (val, node = @root) ->
+
+        results = []
+
+        if val < node.center
+
+            for interval in node.starts
+
+                break if interval.start > val
+
+                results.push interval
+
+            if node.left?
+                return results.concat @pointSearch(val, node.left)
+
+            else
+                return results
+
+
+        if val > node.center
+
+            for interval in node.ends
+
+                break if interval.end < val
+
+                results.push interval
+
+            if node.right?
+                return results.concat @pointSearch(val, node.right)
+
+            else
+                return results
+
+        # if val is node.center
+        return results.concat node.starts.toArray()
+
+
+
+    ###*
+    returns intervals which covers the given start-end interval
+
+    @method rangeSearch
+    @public
+    @param {Number} start start of the interval
+    @param {Number} end end of the interval
+    @return {Array(Interval)}
+    ###
+    rangeSearch: (start, end) ->
+
+        resultsById = {}
+
+        for interval in @pointSearch(start)
+            resultsById[interval.id] = interval
+
+        for interval in @pointSearch(end)
+            resultsById[interval.id] = interval
+
+        # add intervals whose point is included in the given range
+        firstPos = @pointTree.firstPositionOf new Point(start)
+
+        lastPos = @pointTree.lastPositionOf new Point(end)
+
+        if lastPos >= 0
+
+            for point in @pointTree.slice(firstPos, lastPos)
+
+                resultsById[point.id] = @intervalsById[point.id]
+
+            return (interval for id, interval of resultsById)
+
 
 
     ###*
@@ -192,81 +280,6 @@ class IntervalTree
         @nodesByCenter[center] = node
 
         return node
-
-
-
-    ###*
-    search intervals at the given node
-
-    @method pointSearch
-    @private
-    @param val {Number}
-    @param node {Node} current node to search
-    @return {Array(Interval)}
-    ###
-    pointSearch: (val, node) ->
-
-        results = []
-
-        return results if not node?
-
-        if val < node.center
-
-            for interval in node.starts
-
-                break if interval.start > val
-
-                results.push interval
-
-            return results.concat @pointSearch(val, node.left)
-
-
-        if val > node.center
-
-            for interval in node.ends
-
-                break if interval.end < val
-
-                results.push interval
-
-            return results.concat @pointSearch(val, node.right)
-
-        # if val is node.center
-        return results.concat node.starts.toArray()
-
-
-
-    ###*
-    returns intervals which covers the given start-end interval
-
-    @method rangeSearch
-    @param {Number} start start of the interval
-    @param {Number} end end of the interval
-    @return {Array(Interval)}
-    ###
-    rangeSearch: (start, end) ->
-
-        resultsById = {}
-
-        for interval in @pointSearch(start, @root)
-            resultsById[interval.id] = interval
-
-        for interval in @pointSearch(end, @root)
-            resultsById[interval.id] = interval
-
-        # add intervals whose point is included in the given range
-        firstPos = @pointTree.firstPositionOf new Point(start)
-
-        lastPos = @pointTree.lastPositionOf new Point(end)
-
-        if lastPos >= 0
-
-            for point in @pointTree.slice(firstPos, lastPos)
-
-                resultsById[point.id] = @intervalsById[point.id]
-
-            return (interval for id, interval of resultsById)
-
 
 
 module.exports = IntervalTree

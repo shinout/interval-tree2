@@ -37,7 +37,7 @@ describe 'IntervalTree', ->
 
     describe 'pointSearch', ->
 
-        it 'searchs intervals by point', ->
+        it 'searches intervals by point', ->
 
             results = @iTree.search(500)
 
@@ -61,7 +61,7 @@ describe 'IntervalTree', ->
 
     describe 'rangeSearch', ->
 
-        it 'searchs intervals by range', ->
+        it 'searches intervals by range', ->
 
             results = @iTree.search(500, 700)
 
