@@ -6,12 +6,38 @@ Interval   = require './interval'
 Util       = require './util'
 
 
+###*
+interval tree
+
+@class IntervalTree
+@module interval-tree2
+###
 class IntervalTree
 
 
+    ###*
+    @constructor
+    @param {Number} center center of the root node
+    ###
     constructor: (center) ->
 
+        Util.assertNumber center, 'IntervalTree: center'
+
+        ###*
+        root node
+
+        @property {Node} root
+        ###
+        @root = new Node(center)
+
+
+        ###*
+        id => interval
+
+        @property {Object(Interval)} intervalsById
+        ###
         @intervalsById = {}
+
 
         ###*
         sorted list of whole point
@@ -20,14 +46,82 @@ class IntervalTree
         ###
         @pointTree = new SortedList('val')
 
-        @_autoIncrement = 0
 
-        Util.assertNumber center, 'IntervalTree: center'
+        ###*
+        unique id candidate of interval without id to be added next time
 
-        @root = new Node(center)
+        @property {Number} idCandidate
+        ###
+        @idCandidate = 0
 
 
-    insert: (node, interval) ->
+
+    ###*
+    add one interval
+    @param {Number} start start of the interval to create
+    @param {Number} end   end of the interval to create
+    @param {String|Number} [id] identifier to distinguish intervals. Automatically defiend when not set.
+    @return {Interval}
+    ###
+    add: (start, end, id) ->
+
+        if @intervalsById[id]?
+            throw new Error('id ' + id + ' is already registered.')
+
+        if not id?
+            while @intervalsById[@idCandidate]?
+                @idCandidate++
+            id = @idCandidate
+
+        interval = new Interval(start, end, id)
+
+        @pointTree.insert new Point(interval.start, id)
+        @pointTree.insert new Point(interval.end,   id)
+
+        @intervalsById[id] = interval
+
+        return @insert interval, @root
+
+
+    ###*
+    search intervals
+    when only one argument is given, return intervals which contains the value
+    when two arguments are given, ...
+
+    @param {Number} val1
+    @param {Number} val2
+    @return {Array(Interval)} intervals
+    ###
+    search: (val1, val2) ->
+
+        Util.assertNumber val1, '1st argument at IntervalTree#search()'
+
+        if not val2?
+
+            return @pointSearch val1, @root
+
+        else
+
+            Util.assertNumber val2, '2nd argument at IntervalTree#search()'
+
+            ret = []
+
+            @rangeSearch val1, val2, ret
+
+            return ret
+
+
+
+    ###*
+    insert interval to the given node
+
+    @method insert
+    @private
+    @param {Interval} interval
+    @param {Node} node node to insert the interval
+    @return {Interval} inserted interval
+    ###
+    insert: (interval, node) ->
 
         if interval.end < node.center
 
@@ -35,7 +129,7 @@ class IntervalTree
 
             node.left ?= new Node(newCenter)
 
-            return @insert(node.left, interval)
+            return @insert(interval, node.left)
 
         if node.center < interval.start
 
@@ -43,11 +137,11 @@ class IntervalTree
 
             node.right ?= new Node(middle)
 
-            return @insert(node.right, interval)
+            return @insert(interval, node.right)
 
         node.insert interval
 
-        return
+        return interval
 
 
     ###*
@@ -90,6 +184,7 @@ class IntervalTree
         return results.concat node.starts.toArray()
 
 
+
     rangeSearch: (start, end, arr) ->
         if end - start <= 0
             throw new Error('end must be greater than start. start: ' + start + ', end: ' + end)
@@ -121,45 +216,6 @@ class IntervalTree
                 interval = @intervalsById[id]
                 arr.push interval.result(start, end)
                 return
-
-
-    add: (start, end, id) ->
-
-        if @intervalsById[id]?
-            throw new Error('id ' + id + ' is already registered.')
-
-        if not id?
-            while @intervalsById[@_autoIncrement]?
-                @_autoIncrement++
-            id = @_autoIncrement
-
-        interval = new Interval(start, end, id)
-
-        @pointTree.insert new Point(interval.start, id)
-        @pointTree.insert new Point(interval.end,   id)
-
-        @intervalsById[id] = interval
-
-        @insert @root, interval
-
-
-    search: (val1, val2) ->
-
-        ret = []
-
-        Util.assertNumber val1, '1st argument at IntervalTree#search()'
-
-        if not val2?
-
-            return @pointSearch val1, @root
-
-        else
-
-            Util.assertNumber val2, '2nd argument at IntervalTree#search()'
-
-            @rangeSearch val1, val2, ret
-
-            return ret
 
 
     remove: (id) ->
