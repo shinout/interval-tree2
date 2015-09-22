@@ -46,6 +46,18 @@ module.exports = (grunt) ->
 
 
 
+    grunt.registerTask 'web',  ->
+        done = @async()
+        browserify = require('browserify')
+
+        b = browserify './src/web-entry.coffee',
+            extensions: '.coffee'
+
+        b.transform('coffeeify')
+
+        b.bundle (err, buf) ->
+            require('fs').writeFileSync 'dist/interval-tree.js', buf.toString()
+            done()
 
 
     grunt.loadNpmTasks 'grunt-mocha-chai-sinon'

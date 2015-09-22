@@ -14,11 +14,18 @@
     "url": "https://github.com/shinout/interval-tree2/issues"
   },
   "homepage": "https://github.com/shinout/interval-tree2",
-  "keywords": ["tree", "interval", "range", "algorithm"],
+  "keywords": [
+    "tree",
+    "interval",
+    "range",
+    "algorithm"
+  ],
   "author": "SHIN Suzuki <shinout310@gmail.com>",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "browserify": "^11.1.0",
+    "coffeeify": "^1.1.0",
     "grunt": "^0.4.5",
     "grunt-contrib-coffee": "^0.13.0",
     "grunt-contrib-yuidoc": "^0.7.0",
