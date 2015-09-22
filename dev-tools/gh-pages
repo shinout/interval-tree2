@@ -8,5 +8,5 @@ git rebase master
 grunt yuidoc
 git add doc
 git commit -m 'update doc'
-git push origin gh-pages
+git push -f origin gh-pages
 git checkout master
