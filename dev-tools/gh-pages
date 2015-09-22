@@ -1,0 +1,8 @@
+#!/bin/sh
+
+
+echo "push to gh-pages"
+
+git checkout gh-pages
+git rebase master
+git push origin gh-pages
