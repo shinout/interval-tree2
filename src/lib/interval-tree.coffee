@@ -29,7 +29,7 @@ class IntervalTree
 
     insert: (node, itvl) ->
 
-        if itvl.end < node.idx
+        if itvl.end < node.center
 
             newCenter = itvl.end
 
@@ -37,7 +37,7 @@ class IntervalTree
 
             return @insert(node.left, itvl)
 
-        if node.idx < itvl.start
+        if node.center < itvl.start
 
             middle = (itvl.start + itvl.end) / 2
 
@@ -54,7 +54,7 @@ class IntervalTree
 
         return if not node?
 
-        if idx < node.idx
+        if idx < node.center
 
             node.starts.every (itvl) ->
 
@@ -68,7 +68,7 @@ class IntervalTree
             return @pointSearch(node.left, idx, arr)
 
 
-        else if idx > node.idx
+        else if idx > node.center
 
             node.ends.every (itvl) ->
                 bool = itvl.end >= idx

@@ -3,7 +3,10 @@ SortedList = require './sorted-list'
 
 class Node
 
-    constructor: (@idx) ->
+    constructor: (@center) ->
+
+        @left  = null
+        @right = null
 
         @starts = new SortedList compare: (a, b) ->
             return -1 if not a?
