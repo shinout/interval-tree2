@@ -1,0 +1,29 @@
+{
+  "name": "interval-tree2",
+  "version": "0.0.0",
+  "description": "interval tree in javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shinout/interval-tree2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shinout/interval-tree2/issues"
+  },
+  "homepage": "https://github.com/shinout/interval-tree2",
+  "keywords": ["tree", "interval", "range", "algorithm"],
+  "author": "SHIN Suzuki <shinout310@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "sortedlist" : "^0.1.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-coffee": "^0.13.0",
+    "grunt-contrib-yuidoc": "^0.7.0",
+    "grunt-mocha-chai-sinon": "0.0.9"
+  }
+}
