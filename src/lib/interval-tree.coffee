@@ -24,19 +24,35 @@ class IntervalTree
         Util.assertNumber center, 'IntervalTree: center'
 
         ###*
+        center => node
+
+        @property {Object(Node)} nodesByCenter
+        ###
+        @nodesByCenter = {}
+
+
+        ###*
         root node
 
         @property {Node} root
         ###
-        @root = new Node(center)
+        @root = @createNode(center)
 
 
         ###*
-        id => interval
+        interval id => interval
 
         @property {Object(Interval)} intervalsById
         ###
         @intervalsById = {}
+
+
+        ###*
+        interval id => node
+
+        @property {Object(Node)} nodesById
+        ###
+        @nodesById = {}
 
 
         ###*
@@ -110,6 +126,25 @@ class IntervalTree
             return @rangeSearch val1, val2
 
 
+    ###*
+    removes an interval of the given id
+
+    @method remove
+    @param {Number|String} id id of the interval to remove
+    ###
+    remove: (id) ->
+
+        interval = @intervalsById[id]
+
+        return if not interval?
+
+        node = @nodesById[id]
+
+        node.remove(interval)
+
+        delete @nodesById[id]
+        delete @intervalsById[id]
+
 
     ###*
     insert interval to the given node
@@ -124,23 +159,40 @@ class IntervalTree
 
         if interval.end < node.center
 
-            newCenter = interval.end
-
-            node.left ?= new Node(newCenter)
+            node.left ?= @createNode(interval.end)
 
             return @insert(interval, node.left)
 
         if node.center < interval.start
 
-            middle = (interval.start + interval.end) / 2
-
-            node.right ?= new Node(middle)
+            node.right ?= @createNode(interval.start)
 
             return @insert(interval, node.right)
 
         node.insert interval
 
+        @nodesById[interval.id] = node
+
         return interval
+
+
+
+    ###*
+    create node by center
+
+    @method createNode
+    @private
+    @param {Number} center
+    @return {Node} node
+    ###
+    createNode: (center) ->
+
+        node = new Node(center)
+
+        @nodesByCenter[center] = node
+
+        return node
+
 
 
     ###*
@@ -215,8 +267,6 @@ class IntervalTree
 
             return (interval for id, interval of resultsById)
 
-
-    remove: (id) ->
 
 
 module.exports = IntervalTree

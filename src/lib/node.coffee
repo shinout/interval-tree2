@@ -49,6 +49,15 @@ class Node
 
 
     ###*
+    the number of intervals
+
+    @method count
+    @return {Number}
+    ###
+    count: -> @starts.length
+
+
+    ###*
     insert an interval
 
     @method insert
@@ -58,6 +67,41 @@ class Node
 
         @starts.insert interval
         @ends.insert interval
+
+
+    ###*
+    remove the given interval
+
+    @method remove
+    @param {Interval} interval
+    @param {SortedList} list
+    ###
+    remove: (interval) ->
+
+        @removeFromList(interval, @starts)
+        @removeFromList(interval, @ends)
+
+
+    ###*
+    remove the given interval from the given list
+
+    @method removeFromList
+    @private
+    @param {Interval} interval
+    @param {SortedList} list
+    ###
+    removeFromList: (interval, list) ->
+
+        firstPos = list.firstPositionOf interval
+
+        for idx in [firstPos...list.length]
+
+            candidate = list[idx]
+
+            if candidate.id is interval.id
+                list.remove(idx)
+                break
+
 
 
 module.exports = Node

@@ -19,7 +19,7 @@ createRandomInterval = (unit, id) ->
 
 describe 'IntervalTree', ->
 
-    before ->
+    beforeEach ->
 
         @iTree = new IntervalTree(500)
 
@@ -41,7 +41,7 @@ describe 'IntervalTree', ->
 
             results = @iTree.search(500)
 
-            resultIds = (Number(result.id) for result in results)
+            resultIds = (result.id for result in results)
 
             for interval in @intervals
 
@@ -63,9 +63,9 @@ describe 'IntervalTree', ->
 
         it 'searchs intervals by range', ->
 
-            intervals = @iTree.search(500, 700)
+            results = @iTree.search(500, 700)
 
-            resultIds = (Number(result.id) for result in intervals)
+            resultIds = (result.id for result in results)
 
             for interval in @intervals
 
@@ -86,3 +86,30 @@ describe 'IntervalTree', ->
 
                 else
                     expect(start > 700 or end < 500).to.be.true
+
+
+
+    describe 'remove', ->
+
+        it 'removes an interval by id', ->
+
+            id = 59
+            interval = @iTree.intervalsById[id]
+            node = @iTree.nodesById[id]
+            count = node.count()
+
+
+            @iTree.remove id
+
+
+            expect(@iTree.intervalsById[id]).to.not.exist
+            expect(@iTree.nodesById[id]).to.not.exist
+
+            expect(node.count()).to.equal count - 1
+            expect(node.ends.length).to.equal count - 1
+
+            results = @iTree.search(interval.start)
+            resultIds = (result.id for result in results)
+            expect(resultIds).to.not.contain id
+
+
