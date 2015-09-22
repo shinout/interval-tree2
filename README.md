@@ -24,14 +24,26 @@ $ npm install interval-tree2
 
 ## usage
 
-### require and create
+### require
 
 ```js
 
 var IntervalTree = require('interval-tree2');
+```
 
+when using in web, use `dist/interval-tree.js` in this module.
+
+```html
+<script src="dist/interval-tree.js"></scirpt>
+```
+
+
+### create
+
+```js
 var itree = new IntervalTree(300); // 300 : the center of the tree
 ```
+
 
 ### add interval data
 
