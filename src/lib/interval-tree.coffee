@@ -92,6 +92,14 @@ class IntervalTree
                 @idCandidate++
             id = @idCandidate
 
+
+        Util.assertNumber(start, '1st argument of IntervalTree#add()')
+        Util.assertNumber(end, '2nd argument of IntervalTree#add()')
+
+        if start >= end
+            Util.assertOrder(start, end, 'start', 'end')
+
+
         interval = new Interval(start, end, id)
 
         @pointTree.insert new Point(interval.start, id)
@@ -124,9 +132,7 @@ class IntervalTree
         else
 
             Util.assertNumber val2, '2nd argument at IntervalTree#search()'
-
-            if val2 - val1 <= 0
-                throw new Error('end must be greater than start. start: ' + val1 + ', end: ' + val2)
+            Util.assertOrder val1, val2, '1st argument', '2nd argument', 'IntervalTree#search()'
 
             return @rangeSearch val1, val2
 
@@ -163,6 +169,8 @@ class IntervalTree
     @return {Array(Interval)}
     ###
     pointSearch: (val, node = @root) ->
+
+        Util.assertNumber(val, '1st argument of IntervalTree#pointSearch()')
 
         results = []
 
@@ -210,6 +218,10 @@ class IntervalTree
     @return {Array(Interval)}
     ###
     rangeSearch: (start, end) ->
+
+        Util.assertNumber start, '1st argument at IntervalTree#rangeSearch()'
+        Util.assertNumber end, '2nd argument at IntervalTree#rangeSearch()'
+        Util.assertOrder start, end, '1st argument', '2nd argument', 'IntervalTree#rangeSearch()'
 
         resultsById = {}
 
