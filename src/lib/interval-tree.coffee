@@ -168,22 +168,18 @@ class IntervalTree
     @param {Node} [node] current node to search. default is this.root
     @return {Array(Interval)}
     ###
-    pointSearch: (val, node = @root) ->
+    pointSearch: (val, node = @root, results = []) ->
 
         Util.assertNumber(val, '1st argument of IntervalTree#pointSearch()')
 
-        results = []
-
         if val < node.center
 
-            for interval in node.starts
+            index = node.starts.lastPositionOf(start: val)
 
-                break if interval.start > val
-
-                results.push interval
+            results = results.concat node.starts.slice(0, index + 1)
 
             if node.left?
-                return results.concat @pointSearch(val, node.left)
+                return @pointSearch(val, node.left, results)
 
             else
                 return results
@@ -191,21 +187,18 @@ class IntervalTree
 
         if val > node.center
 
-            for interval in node.ends
+            index = node.ends.firstPositionOf(end: val)
 
-                break if interval.end < val
-
-                results.push interval
+            results = results.concat node.ends.slice(index)
 
             if node.right?
-                return results.concat @pointSearch(val, node.right)
+                return @pointSearch(val, node.right, results)
 
             else
                 return results
 
         # if val is node.center
         return results.concat node.starts.toArray()
-
 
 
     ###*

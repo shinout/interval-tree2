@@ -109,6 +109,28 @@ describe 'IntervalTree', ->
                 expect(interval.end).to.be.above 499
 
 
+        it 'returns overlapping intervals ', ->
+
+            @iTree.add 599, 600, '599-600'
+            @iTree.add 599, 601, '599-601'
+            @iTree.add 600, 601, '600-601'
+            @iTree.add 601, 602, '601-602'
+            @iTree.add -31, 602, '-31-602'
+
+            results = @iTree.pointSearch(600)
+
+            expect(results).to.be.instanceof Array
+            expect(results[0]).to.be.instanceof Interval
+            expect(results).to.have.length 4
+
+
+            for interval in results
+                expect(interval.start).to.be.below 601
+                expect(interval.end).to.be.above 599
+
+
+
+
 
     describe 'rangeSearch', ->
 
