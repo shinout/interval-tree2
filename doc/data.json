@@ -323,7 +323,7 @@
         },
         {
             "file": "src/lib/interval-tree.coffee",
-            "line": 211,
+            "line": 200,
             "description": "returns intervals which covers the given start-end interval",
             "itemtype": "method",
             "name": "rangeSearch",
@@ -350,7 +350,7 @@
         },
         {
             "file": "src/lib/interval-tree.coffee",
-            "line": 249,
+            "line": 233,
             "description": "insert interval to the given node",
             "itemtype": "method",
             "name": "insert",
@@ -377,7 +377,7 @@
         },
         {
             "file": "src/lib/interval-tree.coffee",
-            "line": 280,
+            "line": 264,
             "description": "create node by center",
             "itemtype": "method",
             "name": "createNode",
@@ -418,6 +418,19 @@
                     "type": "Number|String"
                 }
             ],
+            "class": "Interval",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/interval.coffee",
+            "line": 20,
+            "description": "get center of the interval",
+            "itemtype": "method",
+            "name": "center",
+            "return": {
+                "description": "center",
+                "type": "Number"
+            },
             "class": "Interval",
             "module": "interval-tree2"
         },
@@ -506,7 +519,60 @@
         },
         {
             "file": "src/lib/node.coffee",
-            "line": 72,
+            "line": 73,
+            "description": "get intervals whose start position is less than or equal to the given value",
+            "itemtype": "method",
+            "name": "startPointSearch",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array(Interval)"
+            },
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 87,
+            "description": "get intervals whose end position is more than or equal to the given value",
+            "itemtype": "method",
+            "name": "endPointSearch",
+            "params": [
+                {
+                    "name": "val",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array(Interval)"
+            },
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 101,
+            "description": "gets all registered interval",
+            "itemtype": "method",
+            "name": "getAllIntervals",
+            "return": {
+                "description": "",
+                "type": "Array(Interval)"
+            },
+            "class": "Node",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/node.coffee",
+            "line": 112,
             "description": "remove the given interval",
             "itemtype": "method",
             "name": "remove",
@@ -527,7 +593,7 @@
         },
         {
             "file": "src/lib/node.coffee",
-            "line": 85,
+            "line": 125,
             "description": "remove the given interval from the given list",
             "itemtype": "method",
             "name": "removeFromList",
@@ -633,7 +699,33 @@
         },
         {
             "file": "src/lib/sorted-list.coffee",
-            "line": 54,
+            "line": 55,
+            "description": "get maximum value in the list",
+            "itemtype": "method",
+            "name": "max",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 65,
+            "description": "get minimum value in the list",
+            "itemtype": "method",
+            "name": "min",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "SortedList",
+            "module": "interval-tree2"
+        },
+        {
+            "file": "src/lib/sorted-list.coffee",
+            "line": 75,
             "description": "binary search",
             "itemtype": "method",
             "name": "bsearch",
@@ -653,7 +745,7 @@
         },
         {
             "file": "src/lib/sorted-list.coffee",
-            "line": 85,
+            "line": 106,
             "description": "leftmost position of the given val",
             "itemtype": "method",
             "name": "firstPositionOf",
@@ -673,7 +765,7 @@
         },
         {
             "file": "src/lib/sorted-list.coffee",
-            "line": 107,
+            "line": 133,
             "description": "rightmost position of the given val",
             "itemtype": "method",
             "name": "lastPositionOf",
@@ -693,14 +785,14 @@
         },
         {
             "file": "src/lib/sorted-list.coffee",
-            "line": 129,
+            "line": 160,
             "description": "sorted.toArray()\nget raw array",
             "class": "SortedList",
             "module": "interval-tree2"
         },
         {
             "file": "src/lib/sorted-list.coffee",
-            "line": 137,
+            "line": 168,
             "description": "comparison function. Compares two objects by this.compareKey",
             "itemtype": "method",
             "name": "compare",
@@ -745,7 +837,7 @@
         },
         {
             "message": "Missing item type\nsorted.toArray()\nget raw array",
-            "line": " src/lib/sorted-list.coffee:129"
+            "line": " src/lib/sorted-list.coffee:160"
         }
     ]
 }

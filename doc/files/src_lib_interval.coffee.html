@@ -103,6 +103,14 @@ class Interval
     constructor: (@start, @end, @id) -&gt;
 
 
+    ###*
+    get center of the interval
+
+    @method center
+    @return {Number} center
+    ###
+    center: -&gt; ( @start + @end ) / 2
+
 module.exports = Interval
 
     </pre>
