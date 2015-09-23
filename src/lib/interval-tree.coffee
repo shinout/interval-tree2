@@ -214,22 +214,17 @@ class IntervalTree
 
         resultsById = {}
 
+        # 1. pointSearch to arbitrary point between start and end (here: point = start) 
         for interval in @pointSearch(start)
             resultsById[interval.id] = interval
 
-        for interval in @pointSearch(end)
-            resultsById[interval.id] = interval
-
-        # add intervals whose point is included in the given range
+        # 2. add intervals whose either point is included in the given range
         firstPos = @pointTree.firstPositionOf new Point(start)
+        lastPos  = @pointTree.lastPositionOf new Point(end)
 
-        lastPos = @pointTree.lastPositionOf new Point(end)
+        for point in @pointTree.slice(firstPos, lastPos + 1)
 
-        if lastPos >= 0
-
-            for point in @pointTree.slice(firstPos, lastPos)
-
-                resultsById[point.id] = @intervalsById[point.id]
+            resultsById[point.id] = @intervalsById[point.id]
 
         return (interval for id, interval of resultsById)
 
