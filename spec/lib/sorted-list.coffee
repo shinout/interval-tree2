@@ -3,55 +3,79 @@ SortedList = require '../../src/lib/sorted-list'
 
 describe 'SortedList', ->
 
-    before ->
+    beforeEach ->
 
         @list = new SortedList('val')
-
-        for i in [0...10] # inserts 10 times
-            @list.insert(val: 10) 
-            @list.insert(val: 12)
-            @list.insert(val: 14)
-            @list.insert(val: 16)
-
-        expect(@list).to.have.length 40
 
 
     describe 'firstPositionOf', ->
 
-        it 'returns the first position of the given value when the exact value exists', ->
+        beforeEach ->
 
-            expect(@list.firstPositionOf(val: 10)).to.equal 0
-            expect(@list.firstPositionOf(val: 12)).to.equal 10
-            expect(@list.firstPositionOf(val: 14)).to.equal 20
-            expect(@list.firstPositionOf(val: 16)).to.equal 30
+            @list.insert(val: 300) # 0 
+            @list.insert(val: 301) # 1 
+            @list.insert(val: 301) # 2 
+            @list.insert(val: 303) # 3 
+            @list.insert(val: 304) # 4 
+            @list.insert(val: 304) # 5 
 
 
-        it 'returns the first position of the given value when the exact value does not exist', ->
+        it 'returns -1 when the given value is less than the least value in the list', ->
 
-            expect(@list.firstPositionOf(val: 9)).to.equal -1
-            expect(@list.firstPositionOf(val: 11)).to.equal 10
-            expect(@list.firstPositionOf(val: 13)).to.equal 20
-            expect(@list.firstPositionOf(val: 15)).to.equal 30
-            expect(@list.firstPositionOf(val: 17)).to.equal 40
-            expect(@list.firstPositionOf(val: 18)).to.equal 40
+            expect(@list.firstPositionOf(val: 0)).to.equal -1
+            expect(@list.firstPositionOf(val: 299)).to.equal -1
+
+
+        it 'returns 0 when the given value is the same as the only least value in the list', ->
+            expect(@list.firstPositionOf(val: 300)).to.equal 0
+
+        it 'returns first position (multiple value)', ->
+            expect(@list.firstPositionOf(val: 301)).to.equal 1
+
+        it 'returns first position', ->
+            expect(@list.firstPositionOf(val: 302)).to.equal 2
+
+        it 'returns first position (no matching)', ->
+            expect(@list.firstPositionOf(val: 303)).to.equal 3
+
+        it 'returns first position (max)', ->
+            expect(@list.firstPositionOf(val: 304)).to.equal 4
+
+        it 'returns first position (more than max)', ->
+            expect(@list.firstPositionOf(val: 305)).to.equal 5
 
 
     describe 'lastPositionOf', ->
 
-        it 'returns the last position of the given value when the exact value exists', ->
+        beforeEach ->
 
-            expect(@list.lastPositionOf(val: 10)).to.equal 10
-            expect(@list.lastPositionOf(val: 12)).to.equal 20
-            expect(@list.lastPositionOf(val: 14)).to.equal 30
-            expect(@list.lastPositionOf(val: 16)).to.equal 40
+            @list.insert(val: 300) # 0 
+            @list.insert(val: 301) # 1 
+            @list.insert(val: 301) # 2 
+            @list.insert(val: 303) # 3 
+            @list.insert(val: 304) # 4 
+            @list.insert(val: 304) # 5 
+
+        it 'returns -1 when the given value is less than the least value in the list', ->
+
+            expect(@list.lastPositionOf(val: 0)).to.equal -1
+            expect(@list.lastPositionOf(val: 299)).to.equal -1
 
 
-        it 'returns the last position of the given value when the exact value does not exist', ->
+        it 'returns 0 when the given value is the same as the only least value in the list', ->
+            expect(@list.lastPositionOf(val: 300)).to.equal 0
 
-            expect(@list.lastPositionOf(val: 9)).to.equal -1
-            expect(@list.lastPositionOf(val: 11)).to.equal 10
-            expect(@list.lastPositionOf(val: 13)).to.equal 20
-            expect(@list.lastPositionOf(val: 15)).to.equal 30
-            expect(@list.lastPositionOf(val: 17)).to.equal 40
-            expect(@list.lastPositionOf(val: 18)).to.equal 40
+        it 'returns last position (multiple value)', ->
+            expect(@list.lastPositionOf(val: 301)).to.equal 2
 
+        it 'returns last position (no matching)', ->
+            expect(@list.lastPositionOf(val: 302)).to.equal 2
+
+        it 'returns last position', ->
+            expect(@list.lastPositionOf(val: 303)).to.equal 3
+
+        it 'returns last position (max)', ->
+            expect(@list.lastPositionOf(val: 304)).to.equal 5
+
+        it 'returns first position (more than max)', ->
+            expect(@list.firstPositionOf(val: 305)).to.equal 5

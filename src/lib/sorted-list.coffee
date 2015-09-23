@@ -97,10 +97,12 @@ class SortedList extends Array
 
         num = val[@compareKey]
 
-        while index >= 0 and num is @[index][@compareKey]
+        loop
+            break if index <= 0
+            break if @[index - 1][@compareKey] < num
             index--
 
-        return index + 1
+        return index
 
 
 
@@ -119,7 +121,9 @@ class SortedList extends Array
 
         num = val[@compareKey]
 
-        while index < @length and @[index][@compareKey] <= num
+        loop
+            break if index + 1 >= @length
+            break if @[index + 1][@compareKey] > num
             index++
 
         return index
