@@ -174,9 +174,7 @@ class IntervalTree
 
         if val < node.center
 
-            index = node.starts.lastPositionOf(start: val)
-
-            results = results.concat node.starts.slice(0, index + 1)
+            results = results.concat node.startPointSearch(val)
 
             if node.left?
                 return @pointSearch(val, node.left, results)
@@ -187,9 +185,7 @@ class IntervalTree
 
         if val > node.center
 
-            index = node.ends.firstPositionOf(end: val)
-
-            results = results.concat node.ends.slice(index)
+            results = results.concat node.endPointSearch(val)
 
             if node.right?
                 return @pointSearch(val, node.right, results)
@@ -198,7 +194,7 @@ class IntervalTree
                 return results
 
         # if val is node.center
-        return results.concat node.starts.toArray()
+        return results.concat node.getAllIntervals()
 
 
     ###*

@@ -46,7 +46,7 @@ describe 'SortedList', ->
             expect(@list.lastPositionOf(val: 16)).to.equal 40
 
 
-        it 'returns the first position of the given value when the exact value does not exist', ->
+        it 'returns the last position of the given value when the exact value does not exist', ->
 
             expect(@list.lastPositionOf(val: 9)).to.equal -1
             expect(@list.lastPositionOf(val: 11)).to.equal 10

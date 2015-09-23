@@ -69,6 +69,48 @@ class Node
         @ends.insert interval
 
 
+
+    ###*
+    get intervals whose start position is less than or equal to the given value
+
+    @method startPointSearch
+    @param {Number} val
+    @return {Array(Interval)}
+    ###
+    startPointSearch: (val) ->
+
+        index = @starts.lastPositionOf(start: val)
+
+        console.log "lastPos", index
+
+        return @starts.slice(0, index + 1)
+
+
+    ###*
+    get intervals whose end position is more than or equal to the given value
+
+    @method endPointSearch
+    @param {Number} val
+    @return {Array(Interval)}
+    ###
+    endPointSearch: (val) ->
+
+        index = @ends.firstPositionOf(end: val)
+
+        return @ends.slice(index)
+
+
+    ###*
+    gets all registered interval
+
+    @method getAllIntervals
+    @return {Array(Interval)}
+    ###
+    getAllIntervals: ->
+
+        return @starts.toArray()
+
+
     ###*
     remove the given interval
 
