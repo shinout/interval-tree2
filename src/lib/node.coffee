@@ -81,8 +81,6 @@ class Node
 
         index = @starts.lastPositionOf(start: val)
 
-        console.log "lastPos", index
-
         return @starts.slice(0, index + 1)
 
 

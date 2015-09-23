@@ -51,6 +51,27 @@ class SortedList extends Array
 
         return @
 
+
+    ###*
+    get maximum value in the list
+
+    @method max
+    @return {Number}
+    ###
+    max: ->
+        @[@length - 1]?[@compareKey]
+
+
+    ###*
+    get minimum value in the list
+
+    @method min
+    @return {Number}
+    ###
+    min: ->
+        @[0]?[@compareKey]
+
+
     ###*
     binary search
 
@@ -97,13 +118,16 @@ class SortedList extends Array
 
         num = val[@compareKey]
 
-        loop
-            break if index <= 0
-            break if @[index - 1][@compareKey] < num
-            index--
+        if num is @[index]?[@compareKey]
+
+            loop
+                break if index <= 0
+                break if @[index - 1][@compareKey] < num
+                index--
+        else
+            index++
 
         return index
-
 
 
     ###*
@@ -120,6 +144,9 @@ class SortedList extends Array
         return -1 if index is -1
 
         num = val[@compareKey]
+
+        if index is @length - 1 and num > @max()
+            return index + 1
 
         loop
             break if index + 1 >= @length
