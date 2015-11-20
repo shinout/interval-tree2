@@ -13,8 +13,9 @@ class Interval
     @param {Number} start start of the interval
     @param {Number} end end of the interval
     @param {Number|String} id id of the interval
+    @param {Object|String|Number|Null|Undefined} optional object to attach to the interval
     ###
-    constructor: (@start, @end, @id) ->
+    constructor: (@start, @end, @id, @object) ->
 
 
     ###*

@@ -82,7 +82,7 @@ class IntervalTree
     @param {String|Number} [id] identifier to distinguish intervals. Automatically defiend when not set.
     @return {Interval}
     ###
-    add: (start, end, id) ->
+    add: (start, end, id, object) ->
 
         if @intervalsById[id]?
             throw new Error('id ' + id + ' is already registered.')
@@ -100,7 +100,7 @@ class IntervalTree
             Util.assertOrder(start, end, 'start', 'end')
 
 
-        interval = new Interval(start, end, id)
+        interval = new Interval(start, end, id, object)
 
         @pointTree.insert new Point(interval.start, id)
         @pointTree.insert new Point(interval.end,   id)
