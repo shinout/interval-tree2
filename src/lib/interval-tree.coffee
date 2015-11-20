@@ -96,8 +96,7 @@ class IntervalTree
         Util.assertNumber(start, '1st argument of IntervalTree#add()')
         Util.assertNumber(end, '2nd argument of IntervalTree#add()')
 
-        if start >= end
-            Util.assertOrder(start, end, 'start', 'end')
+        Util.assertOrder(start, end, 'start', 'end')
 
 
         interval = new Interval(start, end, id)

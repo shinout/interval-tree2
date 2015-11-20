@@ -12,7 +12,7 @@ class Util
 
     @assertOrder: (start, end, startName, endName, desc) ->
 
-        if start >= end
-            throw new Error("#{desc}: #{startName}(#{start}) must be smaller than #{endName}(#{end}).")
+        if start > end
+            throw new Error("#{desc}: #{startName}(#{start}) must be less than or equal to #{endName}(#{end}).")
 
 module.exports = Util
